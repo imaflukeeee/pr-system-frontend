@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
+  images: { // กำหนดตั้งค่ารูปภาพ next.js
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 'images.unsplash.com', // กำหนดให้อนุญาตดึงรูปภาพจาก unsplash.com มาใช้ได้
       },
     ],
   },

@@ -4,7 +4,7 @@ import { Zap, TreePine, Layers, TrendingUp, TrendingDown, CheckCircle, Sparkles 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, AreaChart, Area } from 'recharts'
 
 export default function DashboardPage() {
-
+// สร้างข้อมูลจำลอง Mock Data สำหรับให้กราฟวาดรูป
   const turbineData = [
     { time: '14:00', load: 45 },
     { time: '15:00', load: 48 },
