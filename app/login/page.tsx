@@ -32,7 +32,7 @@ export default function LoginPage() {
     } catch (error) {
       setErrorMsg('ไม่สามารถเชื่อมต่อกับ Server ได้')
     }
-  } // 👈 บั๊กที่ 1: อาจารย์ลบปีกกาที่เกินมาออกให้แล้วครับ!
+  }
 
   return (
     <div className="flex h-screen flex-col bg-[#F8F9FB]">
@@ -65,14 +65,11 @@ export default function LoginPage() {
         </div>
 
         <div className="flex items-center justify-center p-8 overflow-y-auto">
-          {/* 👇 บั๊กที่ 2: อาจารย์เติม onSubmit={handleLogin} ให้ตรงนี้ครับ */}
           <form onSubmit={handleLogin} className="w-full max-w-md bg-white p-10 rounded-3xl shadow-xl border border-slate-100">
             <h1 className="text-4xl font-extrabold mb-3 text-slate-900 tracking-tight">Internal Access</h1>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
               Authorized personnel Only. Please sign in to continue.
             </p>
-            
-            {/* 👇 บั๊กที่ 3: อาจารย์เติมกล่องแจ้งเตือน Error สีแดงให้ตรงนี้ครับ */}
             {errorMsg && (
               <div className="mb-6 p-4 bg-red-50 text-red-600 border border-red-200 rounded-xl text-sm font-medium">
                 {errorMsg}
