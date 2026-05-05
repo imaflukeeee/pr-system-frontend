@@ -12,18 +12,23 @@ export default function PurchaseRequestsPage() {
   const [reason, setReason] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-
   const [requests, setRequests] = useState<any[]>([])
   const [isLoadingData, setIsLoadingData] = useState(true)
+  const [userRole, setUserRole] = useState<string>('User') // ตัวแปรรับค่า Role ให้ค่าเริ่มต้นเป็น User
+
 
   // State สำหรับควบคุมการเปิด/ปิด เมนู Dropdown
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null)
 
-  const fetchRequests = async () => {
+  const fetchRequests = async (roleToFetch?: string) => {
     setIsLoadingData(true)
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch('http://localhost:3000/pr', {
+      const activeRole = roleToFetch || userRole;
+      const apiUrl = activeRole === 'Admin' // เลือก URL ตาม Role
+        ? 'http://localhost:3000/pr/all' 
+        : 'http://localhost:3000/pr';
+      const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -44,7 +49,20 @@ export default function PurchaseRequestsPage() {
   }
 
   useEffect(() => {
-    fetchRequests() 
+    const token = localStorage.getItem('access_token')
+    let currentRole = 'User'
+    if (token) {
+      try {
+        const payload = token.split('.')[1]
+        const decodePayload = JSON.parse(atob(payload)) // atob decode Base64 เป็นข้อความปกติแล้วเก็บเป็น JSON
+        console.log("Token :", decodePayload)
+        currentRole = decodePayload.role || 'User'
+        setUserRole(currentRole) // อัปเดต State
+      } catch (error) {
+        console.error('ถอดรหัส Token ไม่สำเร็จ', error)
+      }
+    }
+    fetchRequests(currentRole)
   }, [])
 
   // ฟังก์ชันเปลี่ยนสถานะ PR
@@ -62,7 +80,7 @@ export default function PurchaseRequestsPage() {
 
       if (response.ok) {
         alert(`เปลี่ยนสถานะเป็น ${newStatus} สำเร็จ!`)
-        fetchRequests()
+        fetchRequests(userRole)
       } else {
         const data = await response.json()
         alert(`ผิดพลาด: ${data.message || 'ไม่สามารถเปลี่ยนสถานะได้'}`)
@@ -92,7 +110,7 @@ export default function PurchaseRequestsPage() {
 
       if (response.ok) {
         alert('🗑️ ลบรายการสำเร็จ!')
-        fetchRequests()
+        fetchRequests(userRole)
       } else {
         const data = await response.json()
         alert(`ผิดพลาด: ${data.message || 'ไม่สามารถลบรายการได้'}`)
@@ -140,7 +158,7 @@ export default function PurchaseRequestsPage() {
         setDepartment('')
         setAmount('')
         setReason('')
-        fetchRequests() 
+        fetchRequests(userRole) 
       } else {
         const data = await response.json()
         setErrorMsg(data.message || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล')
@@ -224,7 +242,7 @@ export default function PurchaseRequestsPage() {
                         <div className="absolute right-6 top-10 w-40 bg-white rounded-xl shadow-lg border border-slate-100 z-10 overflow-hidden text-left animate-in fade-in slide-in-from-top-2">
                           
                           {/* ปุ่ม Approve เห็นเมื่อสถานะเป็น Pending */}
-                          {request.status === 'Pending' && (
+                          {userRole === 'Admin' && request.status === 'Pending' && (
                             <>
                               <button 
                                 onClick={() => handleStatusChange(request.id, 'Approved')}
