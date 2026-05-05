@@ -15,7 +15,8 @@ export default function PurchaseRequestsPage() {
   const [requests, setRequests] = useState<any[]>([])
   const [isLoadingData, setIsLoadingData] = useState(true)
   const [userRole, setUserRole] = useState<string>('User') // ตัวแปรรับค่า Role ให้ค่าเริ่มต้นเป็น User
-
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // ดึง URL จาก vercel
+  
 
   // State สำหรับควบคุมการเปิด/ปิด เมนู Dropdown
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null)
@@ -25,9 +26,9 @@ export default function PurchaseRequestsPage() {
     try {
       const token = localStorage.getItem('access_token')
       const activeRole = roleToFetch || userRole;
-      const apiUrl = activeRole === 'Admin' // เลือก URL ตาม Role
-        ? 'http://localhost:3000/pr/all' 
-        : 'http://localhost:3000/pr';
+      const apiUrl = activeRole === 'Admin' 
+        ? `${baseUrl}/pr/all` 
+        : `${baseUrl}/pr`;
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
