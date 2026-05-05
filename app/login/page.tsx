@@ -35,7 +35,8 @@ export default function LoginPage() {
     } catch (error) {
       setErrorMsg('ไม่สามารถเชื่อมต่อกับ Server ได้') 
     }
-
+  }  
+  
   return (
     <div className="flex h-screen flex-col bg-[#F8F9FB]"> { /* container กึ่งกลางทั้งแนวตั้งและแนวนอน */ }
       <header className="w-full bg-white py-3 px-6 border-b border-slate-100 shadow-sm flex items-center justify-between">
