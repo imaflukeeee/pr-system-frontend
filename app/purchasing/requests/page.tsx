@@ -70,7 +70,7 @@ export default function PurchaseRequestsPage() {
   const handleStatusChange = async (id: number, newStatus: string) => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`http://localhost:3000/pr/${id}/status`, {
+      const response = await fetch(`${baseUrl}/pr/${id}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -89,20 +89,17 @@ export default function PurchaseRequestsPage() {
     } catch (error) {
       alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้')
     } finally {
-      setOpenDropdownId(null) // ปิดเมนู
+      setOpenDropdownId(null)
     }
   }
 
-  // ==========================================
-  // 🗑️ ฟังก์ชันใหม่: ลบ PR (DELETE)
-  // ==========================================
+  // ฟังก์ชันเปลี่ยนสถานะลบ PR (DELETE)
   const handleDelete = async (id: number) => {
-    // ถามย้ำเพื่อความชัวร์ก่อนลบ
     if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?')) return
 
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`http://localhost:3000/pr/${id}`, {
+      const response = await fetch(`${baseUrl}/pr/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -139,7 +136,7 @@ export default function PurchaseRequestsPage() {
 
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch('http://localhost:3000/pr', {
+      const response = await fetch(`${baseUrl}/pr`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
