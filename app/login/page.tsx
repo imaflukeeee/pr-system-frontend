@@ -15,7 +15,10 @@ export default function LoginPage() {
     setErrorMsg('') // clear error msg เก่า
     
     try {
-      const response = await fetch('http://localhost:3000/auth/login', { // ยิง api user ไปที่ backend
+      // ดึง URL จาก Vercel Env (ถ้าไม่มีจะใช้ localhost สำหรับรันทดสอบในเครื่อง)
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
+      const response = await fetch(`${baseUrl}/auth/login`, { // ยิง api user ไปที่ backend
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, password: password }), // แปลงข้อมูลเป็น json
@@ -32,7 +35,6 @@ export default function LoginPage() {
     } catch (error) {
       setErrorMsg('ไม่สามารถเชื่อมต่อกับ Server ได้') 
     }
-  }
 
   return (
     <div className="flex h-screen flex-col bg-[#F8F9FB]"> { /* container กึ่งกลางทั้งแนวตั้งและแนวนอน */ }
