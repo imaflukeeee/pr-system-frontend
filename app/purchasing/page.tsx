@@ -1,9 +1,14 @@
 'use client'
-
+import { useState, useEffect } from 'react'
 import { Zap, TreePine, Layers, TrendingUp, TrendingDown, CheckCircle, Sparkles } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, AreaChart, Area } from 'recharts'
 
 export default function DashboardPage() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 // สร้างข้อมูลจำลอง Mock Data สำหรับให้กราฟวาดรูป
   const turbineData = [
     { time: '14:00', load: 45 },
@@ -162,7 +167,8 @@ export default function DashboardPage() {
             </div>
             
             <div className="flex-1 w-full h-full min-h-[250px]">
-              <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+            {isMounted && (
+              <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={turbineData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} dy={10} />
@@ -177,6 +183,7 @@ export default function DashboardPage() {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
+            )}
             </div>
          </div>
 
@@ -196,7 +203,8 @@ export default function DashboardPage() {
           </div>
 
           <div className="absolute inset-0 pt-16 min-h-[200px]">
-            <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+          {isMounted && (
+            <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={generatorData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorPower" x1="0" y1="0" x2="0" y2="1">
@@ -207,6 +215,7 @@ export default function DashboardPage() {
                 <Area type="monotone" dataKey="power" stroke="#8cc63f" strokeWidth={4} fillOpacity={1} fill="url(#colorPower)" />
               </AreaChart>
             </ResponsiveContainer>
+          )}
           </div>
         </div>
 
