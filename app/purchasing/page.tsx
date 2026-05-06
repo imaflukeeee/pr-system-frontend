@@ -168,7 +168,7 @@ export default function DashboardPage() {
             
             <div className="flex-1 w-full h-full min-h-[250px]">
             {isMounted && (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={turbineData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} dy={10} />
@@ -204,7 +204,7 @@ export default function DashboardPage() {
 
           <div className="absolute inset-0 pt-16 min-h-[200px]">
           {isMounted && (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={250}>
               <AreaChart data={generatorData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorPower" x1="0" y1="0" x2="0" y2="1">
