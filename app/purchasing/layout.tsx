@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation' // import navigation ne
 import { useEffect, useState } from 'react' // import sate react.js
 
 export default function PurchasingLayout({ children }: { children: React.ReactNode }) {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
   const pathname = usePathname() // เช็คหน้า url ปัจจุบัน (ทำ hover menu)
   const router = useRouter() // เอาไว้สั่งเปลี่ยนหน้า
 
@@ -24,7 +25,7 @@ export default function PurchasingLayout({ children }: { children: React.ReactNo
       }
 
       try {
-        const response = await fetch('http://localhost:3000/auth/profile', { // api backend เพื่อแสดง user ผ่าน header
+        const response = await fetch('${baseUrl}/auth/profile', { // api backend เพื่อแสดง user ผ่าน header
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}` // ยืนยันตัวตนผ่าน bearer token
