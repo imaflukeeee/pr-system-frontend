@@ -25,7 +25,7 @@ export default function PurchasingLayout({ children }: { children: React.ReactNo
       }
 
       try {
-        const response = await fetch('${baseUrl}/auth/profile', { // api backend เพื่อแสดง user ผ่าน header
+        const response = await fetch(`${baseUrl}/auth/profile`, { // api backend เพื่อแสดง user ผ่าน header
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}` // ยืนยันตัวตนผ่าน bearer token
